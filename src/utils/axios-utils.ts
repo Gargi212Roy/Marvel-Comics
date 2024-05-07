@@ -12,5 +12,3 @@ httpsInstance.interceptors.response.use(
 );
 
 export default httpsInstance;
-
-//

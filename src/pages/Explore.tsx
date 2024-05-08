@@ -87,8 +87,9 @@ const Explore = () => {
 
 	const handleViewComics = async () => {
 		setLoading(true);
-		console.log(2);
+		console.log("character: ", characterIds);
 		if (characterIds.characterIds.length > 0) {
+			console.log("characterId: ", characterIds);
 			setCharacterData([]);
 			try {
 				const response = await getAllComicsForCharacterAPI(
@@ -128,7 +129,7 @@ const Explore = () => {
 			<SearchBar handleGetCharacterData={handleGetCharacterData} />
 			<div className={styles.exploreContainer}>
 				<div className={styles.overlay}>
-					<Carousel handleGetCharacterData={handleGetCharacterData} />
+					<Carousel handleViewComics={handleViewComics} />
 					{loading ? (
 						<Loader />
 					) : (

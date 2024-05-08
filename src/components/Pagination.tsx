@@ -18,25 +18,32 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
 		return null;
 	}
 	const handlePageChange = (e: { selected: number }) => {
-		console.log("currNo: ", currentPage);
 		handleGetData();
 		setCurrentPage(e.selected);
 	};
 
 	return (
-		<ReactPaginate
-			previousLabel=" < "
-			nextLabel=" > "
-			breakLabel={"..."}
-			breakClassName={"break-me"}
-			pageCount={totalPages}
-			marginPagesDisplayed={1}
-			pageRangeDisplayed={3}
-			onPageChange={handlePageChange}
-			containerClassName={"comic-pagination"}
-			activeClassName={"active"}
-			forcePage={currentPage}
-		/>
+		<div
+			style={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+		>
+			<ReactPaginate
+				previousLabel=" < "
+				nextLabel=" > "
+				breakLabel={"..."}
+				breakClassName={"break-me"}
+				pageCount={totalPages}
+				marginPagesDisplayed={1}
+				pageRangeDisplayed={3}
+				onPageChange={handlePageChange}
+				containerClassName={"comic-pagination"}
+				activeClassName={"active"}
+				forcePage={currentPage}
+			/>
+		</div>
 	);
 };
 

@@ -16,7 +16,7 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 
 	const [selectedCharacters, setSelectedCharacters] = useState<number[]>([]);
 
-	const handleSelectCharacter = (id: number) => {
+	const handleCheckboxChange = (id: number) => {
 		if (selectedCharacters.includes(id)) {
 			setSelectedCharacters(
 				selectedCharacters.filter((charId) => charId !== id)
@@ -34,21 +34,33 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 		<div>
 			<h2 className={styles.title}>Matching Characters:</h2>
 			<div className={styles.filterComicsParent}>
-				<div className={styles.filterComicsContainer}>
+				<div
+					className={`${styles.filterComicsContainer} ${styles.carouselParentContainer}`}
+				>
 					{characterData.map((character: any, index: number) => (
-						<div key={index} className={styles.characterItem}>
-							<img
-								src={
-									character.thumbnail.path + "." + character.thumbnail.extension
-								}
-								alt="characterImg"
-								style={{ width: "12rem", height: "12rem" }}
-								onClick={() => handleSelectCharacter(character.id)}
-							/>
-							{selectedCharacters.includes(character.id) && (
-								<div className={styles.overlay}>✓</div>
-							)}
-							<div className={styles.characterName}>{character.name}</div>
+						<div className={styles.characterCard}>
+							<div
+								key={index}
+								className={`${styles.carouselItem} ${styles.characterItem}`}
+							>
+								<input
+									className={styles.checkBox}
+									type="checkbox"
+									name=""
+									id=""
+									onChange={() => handleCheckboxChange(character.id)}
+								/>
+								<img
+									src={
+										character.thumbnail.path +
+										"." +
+										character.thumbnail.extension
+									}
+									alt="characterImg"
+									style={{ width: "12rem", height: "12rem" }}
+								/>
+								<div className={styles.characterName}>{character.name}</div>
+							</div>
 						</div>
 					))}
 				</div>

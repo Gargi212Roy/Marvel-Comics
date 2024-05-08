@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addCharacterIds } from "../redux/slices/characterIdsSlice";
 import styles from "../styles/carousel.module.scss";
-import { getAllComicsForCharacterAPI } from "../api/marvel-comic-apis";
 
 interface CharacterContentProps {
 	characterData: any[];
@@ -33,7 +32,7 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 
 	return (
 		<div>
-			<h2>Matching Characters:</h2>
+			<h2 className={styles.title}>Matching Characters:</h2>
 			<div className={styles.filterComicsContainer}>
 				{characterData.map((character: any, index: number) => (
 					<div key={index} className={styles.characterItem}>
@@ -48,7 +47,7 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 						{selectedCharacters.includes(character.id) && (
 							<div className={styles.overlay}>✓</div>
 						)}
-						<div>{character.name}</div>
+						<div className={styles.characterName}>{character.name}</div>
 					</div>
 				))}
 			</div>

@@ -11,7 +11,7 @@ const FilteredComics: React.FC<FilterComicsProps> = ({ comics }) => {
 	console.log("cmoics: ", comics);
 	return (
 		<div>
-			Comics:
+			<h2 className={styles.title}>Comics:</h2>
 			<div className={styles.filterComicsContainer}>
 				{comics.length > 0 &&
 					comics.map((comic: any, index: number) => (
@@ -24,7 +24,7 @@ const FilteredComics: React.FC<FilterComicsProps> = ({ comics }) => {
 									height: "15rem",
 								}}
 							/>
-							<p className={styles.comicTitle}>{comic.title}</p>
+							<p className={styles.characterName}>{comic.title}</p>
 						</div>
 					))}
 			</div>

@@ -9,10 +9,19 @@
 	grid-gap: 1rem;
 	flex-wrap: wrap;
 	padding: 4rem 0rem 0rem 2rem;
+}
 
-	.comicTitle {
-		width: 15rem;
-		font-size: 1rem;
-		font-family: "Exo 2", sans-serif;
-	}
+.characterName {
+	font-family: "Roboto", sans-serif;
+	font-size: 1.25rem;
+	font-weight: 900;
+	width: 10rem;
+	color: rgb(3, 38, 69);
+}
+
+.title {
+	width: 15rem;
+	font-size: 3rem;
+	font-family: "Exo 2", sans-serif;
+	color: #200249;
 }

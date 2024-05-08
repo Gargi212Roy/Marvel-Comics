@@ -28,7 +28,9 @@ export const getCharacterDataAPI = async (
 			characterName !== undefined && characterName?.length > 0
 				? `characters?ts=${ts}&apikey=${PUBLIC_KEY}&hash=${hash}&nameStartsWith=${characterName}&offset=${offset}`
 				: `characters?ts=${ts}&apikey=${PUBLIC_KEY}&hash=${hash}&limit=100`;
+		console.log("url: ", url);
 		const response = await axios.get(url);
+		console.log("in api: ", response);
 		return response.data;
 	} catch (error) {
 		console.log("Error in getAllCharacterDataAPI: ", error);

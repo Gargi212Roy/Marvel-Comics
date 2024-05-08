@@ -17,19 +17,23 @@ const SearchBar: React.FC<SearchBarProps> = ({ handleGetCharacterData }) => {
 
 	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
+			sessionStorage.setItem("characterName", searchTerm.characterName);
 			console.log(12);
 			handleGetCharacterData();
 		}
 	};
+
 	return (
 		<div className={styles.searchBar}>
 			<div className={styles.searchHeader}>Marvel</div>
-
 			<div className={styles.inputContainer}>
 				<CiSearch
 					color="#661d9f"
 					fontSize={30}
-					// onClick={handleGetCharacterData}
+					onClick={() => {
+						handleGetCharacterData();
+						sessionStorage.setItem("characterName", searchTerm.characterName);
+					}}
 				/>
 				<input
 					className={styles.inputBox}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SearchBar from "../components/SearchBar";
 import styles from "../styles/explore.module.scss";
@@ -6,6 +6,7 @@ import Carousel from "../components/Carousel";
 import FilteredComics from "../components/FilteredComics";
 import { useSelector } from "react-redux";
 import store from "../redux/store";
+import { toast } from "react-toastify";
 import {
 	getAllComicsForCharacterAPI,
 	getCharacterDataAPI,
@@ -24,17 +25,31 @@ const Explore = () => {
 	const [characterOffset, setCharacterOffset] = useState(0);
 	const [loading, setLoading] = useState(false);
 
+	const prevCharacterName = sessionStorage.getItem("characterName");
 	const characterIds = useSelector(
 		(state: ReturnType<typeof store.getState>) => state.characterIds
 	);
-
 	const characterName = useSelector(
 		(state: ReturnType<typeof store.getState>) => state.characterName
 	);
 
+	useEffect(() => {
+		if (characterName.characterName.length > 0) {
+			handleGetCharacterData();
+		}
+	}, [characterName]);
+
 	const handleGetCharacterData = async () => {
 		setLoading(true);
+		let newCharacterOffset;
 
+		if (prevCharacterName === characterName.characterName) {
+			newCharacterOffset = characterCurrPage * 20;
+		} else {
+			newCharacterOffset = 0;
+		}
+
+		setCharacterOffset(newCharacterOffset);
 		if (characterName.characterName.length > 0) {
 			setComics([]);
 			try {
@@ -43,7 +58,7 @@ const Explore = () => {
 					characterOffset
 				);
 				console.log("response: ", response);
-				if (response.code === 200) {
+				if (response.code === 200 && response.data.total !== 0) {
 					console.log(true);
 					const pages =
 						response.data.total < 20
@@ -54,14 +69,16 @@ const Explore = () => {
 					console.log("pages: ", pages);
 					setCharacterTotalPages(pages);
 					setCharacterData(response.data.results);
-					const newCharacterOffset = (characterCurrPage + 1) * 20;
-					setCharacterOffset(newCharacterOffset);
 					setLoading(false);
 				} else {
+					toast.error(
+						"No Matching Data Exist!! Check and enter in the correct format"
+					);
 					setLoading(false);
 					setCharacterData([]);
 				}
 			} catch (error) {
+				toast.error("Something went wrong!!");
 				console.error("Error fetching character data:", error);
 				setLoading(false);
 			}
@@ -78,7 +95,8 @@ const Explore = () => {
 					characterIds.characterIds,
 					comicOffset
 				);
-				if (response.code === 200) {
+				if (response.code === 200 && response.data.total !== 0) {
+					toast.success("All data sent!!");
 					setLoading(false);
 					const pages =
 						response.data.total < 20
@@ -91,10 +109,14 @@ const Explore = () => {
 					const newComicOffset = (comicCurrPage + 1) * 20;
 					setComicOffset(newComicOffset);
 				} else {
+					toast.error(
+						"No Matching Data Exist!! Check and enter in the correct format"
+					);
 					setLoading(false);
 					setComics([]);
 				}
 			} catch (error) {
+				toast.error("Something went wrong!!");
 				console.error("Error fetching comics data:", error);
 				setLoading(false);
 			}
@@ -102,9 +124,8 @@ const Explore = () => {
 	};
 
 	return (
-		<div>
+		<div className={styles.explore}>
 			<SearchBar handleGetCharacterData={handleGetCharacterData} />
-
 			<div className={styles.exploreContainer}>
 				<div className={styles.overlay}>
 					<Carousel handleGetCharacterData={handleGetCharacterData} />

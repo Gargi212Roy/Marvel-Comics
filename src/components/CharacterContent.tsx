@@ -33,26 +33,31 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 	return (
 		<div>
 			<h2 className={styles.title}>Matching Characters:</h2>
-			<div className={styles.filterComicsContainer}>
-				{characterData.map((character: any, index: number) => (
-					<div key={index} className={styles.characterItem}>
-						<img
-							src={
-								character.thumbnail.path + "." + character.thumbnail.extension
-							}
-							alt="characterImg"
-							style={{ width: "12rem", height: "12rem" }}
-							onClick={() => handleSelectCharacter(character.id)}
-						/>
-						{selectedCharacters.includes(character.id) && (
-							<div className={styles.overlay}>✓</div>
-						)}
-						<div className={styles.characterName}>{character.name}</div>
-					</div>
-				))}
+			<div className={styles.filterComicsParent}>
+				<div className={styles.filterComicsContainer}>
+					{characterData.map((character: any, index: number) => (
+						<div key={index} className={styles.characterItem}>
+							<img
+								src={
+									character.thumbnail.path + "." + character.thumbnail.extension
+								}
+								alt="characterImg"
+								style={{ width: "12rem", height: "12rem" }}
+								onClick={() => handleSelectCharacter(character.id)}
+							/>
+							{selectedCharacters.includes(character.id) && (
+								<div className={styles.overlay}>✓</div>
+							)}
+							<div className={styles.characterName}>{character.name}</div>
+						</div>
+					))}
+				</div>
 			</div>
+
 			{selectedCharacters.length > 0 && (
-				<button onClick={handleViewComics}>View All Comics</button>
+				<button className={styles.viewComicsBtn} onClick={handleViewComics}>
+					<span>View All Comics</span>
+				</button>
 			)}
 		</div>
 	);

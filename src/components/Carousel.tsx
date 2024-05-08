@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCharacterName } from "../redux/slices/characterNameSlice";
 import store from "../redux/store";
 import { Loader } from "./commons/Loader";
+import { toast } from "react-toastify";
 
 interface CarouselProps {
 	handleGetCharacterData: () => void;
@@ -24,12 +25,21 @@ const Carousel: React.FC<CarouselProps> = ({ handleGetCharacterData }) => {
 
 	const handleData = async () => {
 		setLoading(true);
-		const response = await getCharacterDataAPI();
-		if (response.code === 200) {
-			setLoading(false);
+		try {
+			const response = await getCharacterDataAPI();
+			if (response.code === 200) {
+				toast.success("All data sent!!");
+				setLoading(false);
+				setCharacters(response.data.results);
+			} else {
+				// Handle unexpected response codes
+				console.error("Unexpected response code:", response.code);
+			}
+		} catch (error) {
+			toast.error("Something went wrong!!");
+			console.error("Error fetching character data:", error);
+			// Handle error state as needed
 		}
-		console.log(response);
-		setCharacters(response.data.results);
 	};
 
 	// fetch all data at the beginning
@@ -41,12 +51,14 @@ const Carousel: React.FC<CarouselProps> = ({ handleGetCharacterData }) => {
 		dots: true,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 8,
+		slidesToShow: 6,
 		slidesToScroll: 4,
 	};
 
 	const handleImgClick = (character: { name: string }) => {
+		console.log("object", character.name);
 		dispatch(setCharacterName(character.name));
+		// handleGetCharacterData();
 	};
 
 	// const characterQuery = useQuery({
@@ -66,7 +78,13 @@ const Carousel: React.FC<CarouselProps> = ({ handleGetCharacterData }) => {
 				<div className={styles.carouselParentContainer}>
 					<Slider {...settings}>
 						{characters.map((character: any) => (
-							<div key={character.id}>
+							<div className={styles.carouselItem} key={character.id}>
+								<input
+									className={styles.checkBox}
+									type="checkbox"
+									name=""
+									id=""
+								/>
 								<img
 									src={
 										character.thumbnail.path +

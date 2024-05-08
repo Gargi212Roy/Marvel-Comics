@@ -1,10 +1,11 @@
 .exploreContainer {
+	padding-bottom: 2rem;
 	position: relative;
-	min-height: 90vh;
+	min-height: 92vh;
 	width: 100vw;
 	background: linear-gradient(
 			100deg,
-			rgba(239, 22, 22, 0.221),
+			rgba(16, 16, 16, 0.957),
 			rgba(44, 27, 27, 0.1)
 		),
 		url("../assets/jpeg/exploreBgImg.jpg") no-repeat center center;

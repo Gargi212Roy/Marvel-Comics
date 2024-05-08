@@ -30,7 +30,7 @@ export const getCharacterDataAPI = async (
 				: `characters?ts=${ts}&apikey=${PUBLIC_KEY}&hash=${hash}&limit=100`;
 		console.log("url: ", url);
 		const response = await axios.get(url);
-		console.log("in api: ", response);
+		console.log("in api: ", response.data.data);
 		return response.data;
 	} catch (error) {
 		console.log("Error in getAllCharacterDataAPI: ", error);

@@ -18,7 +18,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ handleGetCharacterData }) => {
 	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			sessionStorage.setItem("characterName", searchTerm.characterName);
-			console.log(12);
 			handleGetCharacterData();
 		}
 	};

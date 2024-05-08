@@ -57,16 +57,13 @@ const Explore = () => {
 					characterName.characterName,
 					characterOffset
 				);
-				console.log("response: ", response);
 				if (response.code === 200 && response.data.total !== 0) {
-					console.log(true);
 					const pages =
 						response.data.total < 20
 							? 1
 							: response.data.total % 20
 							? Math.floor(response.data.total / 20) + 1
 							: Math.floor(response.data.total / 20);
-					console.log("pages: ", pages);
 					setCharacterTotalPages(pages);
 					setCharacterData(response.data.results);
 					setLoading(false);
@@ -87,9 +84,7 @@ const Explore = () => {
 
 	const handleViewComics = async () => {
 		setLoading(true);
-		console.log("character: ", characterIds);
 		if (characterIds.characterIds.length > 0) {
-			console.log("characterId: ", characterIds);
 			setCharacterData([]);
 			try {
 				const response = await getAllComicsForCharacterAPI(

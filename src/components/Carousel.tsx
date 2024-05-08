@@ -73,14 +73,29 @@ const Carousel: React.FC<CarouselProps> = ({ handleViewComics }) => {
 		}
 	};
 
-	// const characterQuery = useQuery({
+	// const { data, error, isLoading } = useQuery({
 	// 	queryKey: ["Characters"],
-	// 	queryFn: getALlComicCharactersAPI,
+	// 	queryFn: async () => {
+	// 		const response = await getCharacterDataAPI();
+	// 		return response;
+	// 	},
 	// });
 
-	// if (characterQuery.isLoading) return <h1>Loading...</h1>;
-	// if (!characterQuery.isError) setCharacters(characterQuery.data.results);
-	// else return <pre>{JSON.stringify(characterQuery.error)}</pre>;
+	// if (isLoading) setLoading(true);
+	// else setLoading(false);
+
+	// if (data.code === 200) {
+	// 	toast.success("All data sent!!");
+	// 	setLoading(false);
+	// 	setCharacters(data.data.results);
+	// } else {
+	// 	console.error("Unexpected response code:", data.code);
+	// }
+
+	// if (error) {
+	// 	toast.error("Something went wrong!!");
+	// 	console.error("Error fetching character data:", error);
+	// }
 
 	return (
 		<div>

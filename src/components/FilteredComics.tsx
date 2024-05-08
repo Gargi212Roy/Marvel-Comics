@@ -6,7 +6,6 @@ interface FilterComicsProps {
 }
 
 const FilteredComics: React.FC<FilterComicsProps> = ({ comics }) => {
-	console.log("cmoics: ", comics);
 	return (
 		<div>
 			<h2 className={styles.title}>Comics:</h2>

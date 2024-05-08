@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const environment = {
-	API_URL: `http://gateway.marvel.com/v1/public/`,
+	API_URL: `https://gateway.marvel.com:443/v1/public/`,
 };
 
 const httpsInstance = axios.create({ baseURL: environment.API_URL });

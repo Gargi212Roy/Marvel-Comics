@@ -3,6 +3,10 @@
 	margin: 0;
 }
 
+.slick-dots {
+	display: none !important;
+}
+
 .comic-pagination {
 	margin-top: 18px;
 	display: flex;

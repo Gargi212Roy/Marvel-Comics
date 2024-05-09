@@ -10,6 +10,7 @@
 			position: absolute;
 			top: 5px;
 			left: 0;
+			cursor: pointer;
 		}
 	}
 }
@@ -45,22 +46,33 @@
 	color: #cec7d1;
 }
 
-.viewComicsBtn {
+.btnContainer {
+	padding-top: 3rem;
 	display: flex;
 	width: 100%;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 	font-size: 1rem;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	margin-bottom: 1rem 0rem 2rem 0rem;
-	border: none;
-	background-color: rgba($color: #000000, $alpha: 0.1);
-	span {
+	background-color: rgba($color: #000000, $alpha: 0);
+	.viewComicsBtn {
+		cursor: pointer;
+		border: none;
 		border-radius: 25px;
 		width: 10rem;
 		padding: 0.5rem 1rem;
 		background-color: #04544b;
 		color: rgb(184, 207, 228);
+	}
+	.clearBtn {
+		cursor: pointer;
+		border: none;
+		border-radius: 25px;
+		width: 10rem;
+		padding: 0.5rem 1rem;
+		background-color: #540411;
+		color: rgb(223, 191, 191);
 	}
 }
 
@@ -73,4 +85,28 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+@media screen and (max-width: 500px) {
+	.carouselParentContainer {
+		padding: 2.5rem;
+	}
+	.filterComicsContainer {
+		grid-template-columns: repeat(1, 1fr);
+		grid-gap: 1rem 0rem;
+		padding: 0rem;
+	}
+	.title {
+		padding: 2rem 0rem 1rem 3rem;
+	}
+}
+@media screen and (min-width: 501px) and (max-width: 1000px) {
+	.title {
+		padding: 2rem 0rem 1rem 3rem;
+	}
+	.filterComicsContainer {
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 1rem 0rem;
+		padding: 0rem;
+	}
 }

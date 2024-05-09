@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Slider from "react-slick";
+import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getCharacterDataAPI } from "../api/marvel-comic-apis";
@@ -13,9 +13,15 @@ import { addCharacterIds } from "../redux/slices/characterIdsSlice";
 
 interface CarouselProps {
 	handleViewComics: () => void;
+	handleClearFilters: () => void;
+	comics: any[];
 }
 
-const Carousel: React.FC<CarouselProps> = ({ handleViewComics }) => {
+const Carousel: React.FC<CarouselProps> = ({
+	handleViewComics,
+	handleClearFilters,
+	comics,
+}) => {
 	const dispatch = useDispatch();
 	const [characters, setCharacters] = useState([]);
 	const [selectedCharacterIds, setSelectedCharacterIds] = useState<number[]>(
@@ -48,13 +54,30 @@ const Carousel: React.FC<CarouselProps> = ({ handleViewComics }) => {
 		handleData();
 	}, []);
 
-	const settings = {
-		dots: true,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 6,
-		slidesToScroll: 4,
+	const getCarouselSettings = (): Settings => {
+		const windowWidth = window.innerWidth;
+		let slidesToShow = 6;
+		let slidesToScroll = 4;
+		if (windowWidth >= 500 && windowWidth <= 768) {
+			slidesToShow = 4;
+			slidesToScroll = 2;
+		}
+		if (windowWidth >= 320 && windowWidth <= 500) {
+			slidesToShow = 2;
+			slidesToScroll = 2;
+		}
+
+		return {
+			dots: true,
+			infinite: true,
+			speed: 500,
+			slidesToShow: slidesToShow,
+			slidesToScroll: slidesToScroll,
+		};
 	};
+
+	// Usage
+	const settings = getCarouselSettings();
 
 	const handleCheckboxChange = (characterId: number) => {
 		const index = selectedCharacterIds.indexOf(characterId);
@@ -123,8 +146,8 @@ const Carousel: React.FC<CarouselProps> = ({ handleViewComics }) => {
 										alt=""
 										style={{
 											borderRadius: "50%",
-											width: "10rem",
-											height: "10rem",
+											width: "6rem",
+											height: "6rem",
 										}}
 									/>
 								</div>
@@ -132,9 +155,22 @@ const Carousel: React.FC<CarouselProps> = ({ handleViewComics }) => {
 						</Slider>
 					</div>
 					{selectedCharacterIds.length > 0 && (
-						<button className={styles.viewComicsBtn} onClick={handleViewComics}>
-							<span>View All Comics</span>
-						</button>
+						<div className={styles.btnContainer}>
+							<button
+								className={styles.viewComicsBtn}
+								onClick={handleViewComics}
+							>
+								View All Comics
+							</button>
+							{comics.length > 0 && (
+								<button
+									className={styles.clearBtn}
+									onClick={handleClearFilters}
+								>
+									Clear Filters
+								</button>
+							)}
+						</div>
 					)}
 				</>
 			)}

@@ -4,13 +4,17 @@ import { addCharacterIds } from "../redux/slices/characterIdsSlice";
 import styles from "../styles/carousel.module.scss";
 
 interface CharacterContentProps {
+	handleClearFilters: () => void;
 	characterData: any[];
 	handleViewComics: () => void;
+	comics: any[];
 }
 
 const CharacterContent: React.FC<CharacterContentProps> = ({
+	handleClearFilters,
 	characterData,
 	handleViewComics,
+	comics,
 }) => {
 	const dispatch = useDispatch();
 
@@ -67,9 +71,16 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 			</div>
 
 			{selectedCharacters.length > 0 && (
-				<button className={styles.viewComicsBtn} onClick={handleViewComics}>
-					<span>View All Comics</span>
-				</button>
+				<div className={styles.btnContainer}>
+					<button className={styles.viewComicsBtn} onClick={handleViewComics}>
+						View All Comics
+					</button>
+					{comics.length > 0 && (
+						<button className={styles.clearBtn} onClick={handleClearFilters}>
+							Clear Filters
+						</button>
+					)}
+				</div>
 			)}
 		</div>
 	);

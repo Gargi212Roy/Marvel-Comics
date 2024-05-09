@@ -39,6 +39,14 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Functionalities
+
+User can search comic characters from the Search Box in Navigation bar
+In the Carousel user can click one or multiple characters and view their comics
+In a page at a time maximum of 20 comics or characters visible
+If there are more than 20, user can move to the next page to view them
+User can clear all filters selected
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

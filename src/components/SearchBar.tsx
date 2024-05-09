@@ -28,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ handleGetCharacterData }) => {
 			<div className={styles.inputContainer}>
 				<CiSearch
 					color="#661d9f"
-					fontSize={30}
+					fontSize={window.innerWidth <= 768 ? 20 : 30}
 					onClick={() => {
 						handleGetCharacterData();
 						sessionStorage.setItem("characterName", searchTerm.characterName);

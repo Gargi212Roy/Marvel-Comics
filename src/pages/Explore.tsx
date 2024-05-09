@@ -4,7 +4,7 @@ import SearchBar from "../components/SearchBar";
 import styles from "../styles/explore.module.scss";
 import Carousel from "../components/Carousel";
 import FilteredComics from "../components/FilteredComics";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import store from "../redux/store";
 import { toast } from "react-toastify";
 import {
@@ -14,7 +14,10 @@ import {
 import PaginationComponent from "../components/Pagination";
 import CharacterContent from "../components/CharacterContent";
 import { Loader } from "../components/commons/Loader";
+import { setCharacterName } from "../redux/slices/characterNameSlice";
+import { addCharacterIds } from "../redux/slices/characterIdsSlice";
 const Explore = () => {
+	const dispatch = useDispatch();
 	const [characterData, setCharacterData] = useState([]);
 	const [comics, setComics] = useState([]);
 	const [characterTotalPages, setCharacterTotalPages] = useState(1);
@@ -119,12 +122,23 @@ const Explore = () => {
 		}
 	};
 
+	const handleClearFilters = () => {
+		setComics([]);
+		setCharacterData([]);
+		dispatch(setCharacterName(""));
+		dispatch(addCharacterIds([]));
+	};
+
 	return (
 		<div className={styles.explore}>
 			<SearchBar handleGetCharacterData={handleGetCharacterData} />
 			<div className={styles.exploreContainer}>
 				<div className={styles.overlay}>
-					<Carousel handleViewComics={handleViewComics} />
+					<Carousel
+						handleViewComics={handleViewComics}
+						handleClearFilters={handleClearFilters}
+						comics={comics}
+					/>
 					{loading ? (
 						<Loader />
 					) : (
@@ -133,8 +147,10 @@ const Explore = () => {
 								{characterData.length > 0 && (
 									<div>
 										<CharacterContent
+											handleClearFilters={handleClearFilters}
 											characterData={characterData}
 											handleViewComics={handleViewComics}
+											comics={comics}
 										/>
 										<PaginationComponent
 											totalPages={characterTotalPages}

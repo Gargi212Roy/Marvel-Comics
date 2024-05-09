@@ -32,3 +32,14 @@
 		}
 	}
 }
+@media screen and (max-width: 768px) {
+	.searchHeader {
+		font-size: 1.25rem !important;
+		font-weight: 600 !important;
+	}
+	.inputBox {
+		font-size: 0.75rem;
+		font-weight: 400;
+		width: 25vw;
+	}
+}

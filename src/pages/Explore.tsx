@@ -23,7 +23,7 @@ const Explore = () => {
 	const [characterTotalPages, setCharacterTotalPages] = useState(1);
 	const [comicTotalPages, setComicTotalPages] = useState(1);
 	const [characterCurrPage, setCharacterCurrPage] = useState(0);
-	const [comicCurrPage, setComicCurrPage] = useState(0);
+	const [comicCurrPage, setComicCurrPage] = useState(1);
 	const [comicOffset, setComicOffset] = useState(0);
 	const [characterOffset, setCharacterOffset] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -86,6 +86,7 @@ const Explore = () => {
 	};
 
 	const handleViewComics = async () => {
+		console.log("page at the beginning: ", comicCurrPage);
 		setLoading(true);
 		if (characterIds.characterIds.length > 0) {
 			setCharacterData([]);
@@ -104,8 +105,18 @@ const Explore = () => {
 							? Math.floor(response.data.total / 20) + 1
 							: Math.floor(response.data.total / 20);
 					setComicTotalPages(pages);
+					console.log("response data: ", response.data);
 					setComics(response.data.results);
+
 					const newComicOffset = (comicCurrPage + 1) * 20;
+					console.log(
+						"currPage: ",
+						comicCurrPage,
+						"offset: ",
+						comicOffset,
+						"newOffset: ",
+						newComicOffset
+					);
 					setComicOffset(newComicOffset);
 				} else {
 					toast.error(

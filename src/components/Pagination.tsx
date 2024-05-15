@@ -19,7 +19,8 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
 	}
 	const handlePageChange = (e: { selected: number }) => {
 		handleGetData();
-		setCurrentPage(e.selected);
+		console.log("pagination: ", e.selected + 1);
+		setCurrentPage(e.selected + 1);
 	};
 
 	return (
@@ -41,7 +42,7 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
 				onPageChange={handlePageChange}
 				containerClassName={"comic-pagination"}
 				activeClassName={"active"}
-				forcePage={currentPage}
+				forcePage={currentPage - 1}
 			/>
 		</div>
 	);

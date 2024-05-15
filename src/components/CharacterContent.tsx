@@ -42,11 +42,8 @@ const CharacterContent: React.FC<CharacterContentProps> = ({
 					className={`${styles.filterComicsContainer} ${styles.carouselParentContainer}`}
 				>
 					{characterData.map((character: any, index: number) => (
-						<div className={styles.characterCard}>
-							<div
-								key={index}
-								className={`${styles.carouselItem} ${styles.characterItem}`}
-							>
+						<div className={styles.characterCard} key={index}>
+							<div className={`${styles.carouselItem} ${styles.characterItem}`}>
 								<input
 									className={styles.checkBox}
 									type="checkbox"

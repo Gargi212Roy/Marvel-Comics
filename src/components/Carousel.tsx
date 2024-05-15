@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getCharacterDataAPI } from "../api/marvel-comic-apis";
 import styles from "../styles/carousel.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import store from "../redux/store";
+import { useDispatch } from "react-redux";
 import { Loader } from "./commons/Loader";
 import { toast } from "react-toastify";
 import { addCharacterIds } from "../redux/slices/characterIdsSlice";
@@ -23,36 +22,30 @@ const Carousel: React.FC<CarouselProps> = ({
 	comics,
 }) => {
 	const dispatch = useDispatch();
-	const [characters, setCharacters] = useState([]);
 	const [selectedCharacterIds, setSelectedCharacterIds] = useState<number[]>(
 		[]
 	);
 
-	const characterName = useSelector(
-		(state: ReturnType<typeof store.getState>) => state.characterName
-	);
-	const [loading, setLoading] = useState(false);
+	const checkboxRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
 
-	const handleData = async () => {
-		setLoading(true);
-		try {
-			const response = await getCharacterDataAPI();
-			if (response.code === 200) {
-				toast.success("All data sent!!");
-				setLoading(false);
-				setCharacters(response.data.results);
-			} else {
-				console.error("Unexpected response code:", response.code);
-			}
-		} catch (error) {
+	const fetchCharacters = async () => {
+		const response = await getCharacterDataAPI();
+		return response;
+	};
+
+	const { data, error, isLoading } = useQuery({
+		queryKey: ["Characters"],
+		queryFn: fetchCharacters,
+	});
+
+	useEffect(() => {
+		if (data?.code === 200) {
+			toast.success("All data sent!!");
+		} else if (error) {
 			toast.error("Something went wrong!!");
 			console.error("Error fetching character data:", error);
 		}
-	};
-
-	useEffect(() => {
-		handleData();
-	}, []);
+	}, [data, error]);
 
 	const getCarouselSettings = (): Settings => {
 		const windowWidth = window.innerWidth;
@@ -76,74 +69,47 @@ const Carousel: React.FC<CarouselProps> = ({
 		};
 	};
 
-	// Usage
 	const settings = getCarouselSettings();
 
 	const handleCheckboxChange = (characterId: number) => {
 		const index = selectedCharacterIds.indexOf(characterId);
 		if (index === -1) {
-			setSelectedCharacterIds([...selectedCharacterIds, characterId]);
-			dispatch(addCharacterIds([...selectedCharacterIds, characterId]));
+			const newSelectedIds = [...selectedCharacterIds, characterId];
+			setSelectedCharacterIds(newSelectedIds);
+			dispatch(addCharacterIds(newSelectedIds));
 		} else {
-			setSelectedCharacterIds(
-				selectedCharacterIds.filter((id) => id !== characterId)
+			const newSelectedIds = selectedCharacterIds.filter(
+				(id) => id !== characterId
 			);
-			dispatch(
-				addCharacterIds(
-					selectedCharacterIds.filter((charId) => charId !== characterId)
-				)
-			);
+			setSelectedCharacterIds(newSelectedIds);
+			dispatch(addCharacterIds(newSelectedIds));
 		}
 	};
 
-	// const { data, error, isLoading } = useQuery({
-	// 	queryKey: ["Characters"],
-	// 	queryFn: async () => {
-	// 		const response = await getCharacterDataAPI();
-	// 		return response;
-	// 	},
-	// });
-
-	// if (isLoading) setLoading(true);
-	// else setLoading(false);
-
-	// if (data.code === 200) {
-	// 	toast.success("All data sent!!");
-	// 	setLoading(false);
-	// 	setCharacters(data.data.results);
-	// } else {
-	// 	console.error("Unexpected response code:", data.code);
-	// }
-
-	// if (error) {
-	// 	toast.error("Something went wrong!!");
-	// 	console.error("Error fetching character data:", error);
-	// }
+	const handleClear = () => {
+		setSelectedCharacterIds([]);
+		handleClearFilters();
+	};
 
 	return (
 		<div>
-			{loading && characterName.characterName.length <= 0 ? (
+			{isLoading ? (
 				<Loader />
 			) : (
 				<>
 					<div className={styles.carouselParentContainer}>
 						<Slider {...settings}>
-							{characters.map((character: any) => (
+							{data?.data.results.map((character: any) => (
 								<div className={styles.carouselItem} key={character.id}>
 									<input
 										className={styles.checkBox}
 										type="checkbox"
-										name=""
-										id=""
+										checked={selectedCharacterIds.includes(character.id)}
 										onChange={() => handleCheckboxChange(character.id)}
 									/>
 									<img
-										src={
-											character.thumbnail.path +
-											"." +
-											character.thumbnail.extension
-										}
-										alt=""
+										src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
+										alt={character.name}
 										style={{
 											borderRadius: "50%",
 											width: "6rem",
@@ -163,10 +129,7 @@ const Carousel: React.FC<CarouselProps> = ({
 								View All Comics
 							</button>
 							{comics.length > 0 && (
-								<button
-									className={styles.clearBtn}
-									onClick={handleClearFilters}
-								>
+								<button className={styles.clearBtn} onClick={handleClear}>
 									Clear Filters
 								</button>
 							)}

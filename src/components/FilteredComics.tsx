@@ -13,8 +13,8 @@ const FilteredComics: React.FC<FilterComicsProps> = ({ comics }) => {
 				<div className={styles.filterComicsContainer}>
 					{comics.length > 0 &&
 						comics.map((comic: any, index: number) => (
-							<div className={styles.characterCard}>
-								<div key={index} className={styles.characterItem}>
+							<div className={styles.characterCard} key={index}>
+								<div className={styles.characterItem}>
 									<img
 										src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
 										alt={comic.title}

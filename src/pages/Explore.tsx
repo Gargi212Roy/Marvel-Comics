@@ -22,7 +22,7 @@ const Explore = () => {
 	const [comics, setComics] = useState([]);
 	const [characterTotalPages, setCharacterTotalPages] = useState(1);
 	const [comicTotalPages, setComicTotalPages] = useState(1);
-	const [characterCurrPage, setCharacterCurrPage] = useState(0);
+	const [characterCurrPage, setCharacterCurrPage] = useState(1);
 	const [comicCurrPage, setComicCurrPage] = useState(1);
 	const [comicOffset, setComicOffset] = useState(0);
 	const [characterOffset, setCharacterOffset] = useState(0);
@@ -41,14 +41,15 @@ const Explore = () => {
 			handleGetCharacterData();
 		}
 	}, [characterName]);
-
+	console.log("character Page: ", characterCurrPage);
 	const handleGetCharacterData = async () => {
 		setLoading(true);
 		let newCharacterOffset;
-
 		if (prevCharacterName === characterName.characterName) {
-			newCharacterOffset = characterCurrPage * 20;
+			console.log("inside characyer: ", characterCurrPage);
+			newCharacterOffset = (characterCurrPage - 1) * 20;
 		} else {
+			console.log("inside characyer: ", characterCurrPage);
 			newCharacterOffset = 0;
 		}
 

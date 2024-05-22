@@ -1,5 +1,5 @@
 import React from "react";
-import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import ReactPaginate from "react-paginate";
 
 interface PaginationComponentProps {
 	totalPages: number;
@@ -18,9 +18,10 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
 		return null;
 	}
 	const handlePageChange = (e: { selected: number }) => {
+		const newPage = e.selected + 1;
+		setCurrentPage(newPage);
 		handleGetData();
-		console.log("pagination: ", e.selected + 1);
-		setCurrentPage(e.selected + 1);
+		console.log("pagination: ", newPage);
 	};
 
 	return (

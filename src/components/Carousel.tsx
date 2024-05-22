@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -25,8 +25,6 @@ const Carousel: React.FC<CarouselProps> = ({
 	const [selectedCharacterIds, setSelectedCharacterIds] = useState<number[]>(
 		[]
 	);
-
-	const checkboxRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
 
 	const fetchCharacters = async () => {
 		const response = await getCharacterDataAPI();

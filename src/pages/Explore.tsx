@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useCallback } from "react";
 import SearchBar from "../components/SearchBar";
 import styles from "../styles/explore.module.scss";
 import Carousel from "../components/Carousel";
@@ -16,6 +15,7 @@ import CharacterContent from "../components/CharacterContent";
 import { Loader } from "../components/commons/Loader";
 import { setCharacterName } from "../redux/slices/characterNameSlice";
 import { addCharacterIds } from "../redux/slices/characterIdsSlice";
+
 const Explore = () => {
 	const dispatch = useDispatch();
 	const [characterData, setCharacterData] = useState([]);
@@ -36,20 +36,12 @@ const Explore = () => {
 		(state: ReturnType<typeof store.getState>) => state.characterName
 	);
 
-	useEffect(() => {
-		if (characterName.characterName.length > 0) {
-			handleGetCharacterData();
-		}
-	}, [characterName]);
-	console.log("character Page: ", characterCurrPage);
-	const handleGetCharacterData = async () => {
+	const handleGetCharacterData = useCallback(async () => {
 		setLoading(true);
 		let newCharacterOffset;
 		if (prevCharacterName === characterName.characterName) {
-			console.log("inside characyer: ", characterCurrPage);
 			newCharacterOffset = (characterCurrPage - 1) * 20;
 		} else {
-			console.log("inside characyer: ", characterCurrPage);
 			newCharacterOffset = 0;
 		}
 
@@ -84,7 +76,18 @@ const Explore = () => {
 				setLoading(false);
 			}
 		}
-	};
+	}, [
+		characterName.characterName,
+		characterCurrPage,
+		characterOffset,
+		prevCharacterName,
+	]);
+
+	useEffect(() => {
+		if (characterName.characterName.length > 0) {
+			handleGetCharacterData();
+		}
+	}, [characterName.characterName, handleGetCharacterData]);
 
 	const handleViewComics = async () => {
 		console.log("page at the beginning: ", comicCurrPage);
